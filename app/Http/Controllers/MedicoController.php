@@ -35,15 +35,78 @@ class MedicoController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'phone' => 'required|string|max:20',
+        'crm' => 'required|string|unique:medicos|max:20',
+        'user_id' => 'required|exists:users,id'
+        ]);
+
         try {
-            Medico::create($request->all());
-            return redirect()->route('medicos.index')->with('sucesso', 'Medico inserido com sucesso!');
+            Medico::create($validated);
+            return redirect()->route('medicos.index')->with('sucesso', 'Médico cadastrado com sucesso!');
         } catch (Exception $e) {
-            Log::error("Erro ao criar o medico: " . $e->getMessage(), [
+            return redirect()->route('medicos.index')
+                ->withInput()
+                ->with('erro', 'Erro ao cadastrar o médico: ' . $e->getMessage());
+        }
+        
+        
+    }
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $medico = Medico::findOrFail($id);
+        $users = User::all();
+        return view("medicos.show", compact('medico', 'users'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $medico = Medico::findOrFail($id);
+        $users = User::all();
+        return view("medicos.edit", compact('medico', 'users'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        try {
+            $medico = Medico::findOrFail($id);
+            $medico->update($request->all());
+            return redirect()->route('medicos.index')->with('sucesso', 'Medico alterado com sucesso!');
+        } catch (Exception $e) {
+            Log::error("erro ao atualizar o medico: ".$e->getMessage(), [
                 'stack' => $e->getTraceAsString(),
-                'request' => $request->all()
+	            'medico_id' => $id,
+	            'request' => $request->all()
             ]);
-            return redirect()->route('medicos.index')->with('erro', 'Erro ao criar o medico!');
+            return redirect()->route('medicos.index')->with('erro','Erro ao editar!');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        try {
+            $medico = Medico::findOrFail($id);
+            $medico->delete();
+            return redirect()->route('medicos.index')->with('sucesso', 'Medico excluído com sucesso!');
+        } catch (Exception $e) {
+            Log::error("erro ao excluir o medico: ".$e->getMessage(), [
+                'stack' => $e->getTraceAsString(),
+                'medico_id' => $id
+            ]);
+            return redirect()->route('medicos.index')->with('erro','Erro ao excluir!');
         }
     }
 }
