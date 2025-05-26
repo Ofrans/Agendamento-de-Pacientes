@@ -8,6 +8,7 @@ use App\Models\Medico;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class MedicoController extends Controller
 {
@@ -35,23 +36,36 @@ class MedicoController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'phone' => 'required|string|max:20',
-        'crm' => 'required|string|unique:medicos|max:20',
-        'user_id' => 'required|exists:users,id'
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'crm' => 'required|string|unique:medicos|max:20',
+            'user_id' => [
+                'required',
+                'exists:users,id',
+                Rule::unique('medicos')->where(function ($query) use ($request) {
+                    return $query->where('user_id', $request->user_id);
+                })
+            ]
         ]);
 
         try {
-            Medico::create($validated);
-            return redirect()->route('medicos.index')->with('sucesso', 'Médico cadastrado com sucesso!');
-        } catch (Exception $e) {
+            // Verifica se o usuário já está vinculado a outro médico
+            if (Medico::where('user_id', $request->user_id)->exists()) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('erro', 'Este usuário já está vinculado a outro médico!');
+            }
+
+            Medico::create($request->all());
+            
             return redirect()->route('medicos.index')
+                ->with('sucesso', 'Médico cadastrado com sucesso!');
+        } catch (Exception $e) {
+            return redirect()->back()
                 ->withInput()
-                ->with('erro', 'Erro ao cadastrar o médico: ' . $e->getMessage());
+                ->with('erro', 'Erro ao cadastrar médico: ' . $e->getMessage());
         }
-        
-        
     }
     /**
      * Display the specified resource.
