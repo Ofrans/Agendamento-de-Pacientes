@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\MedicoController;
 use Illuminate\Support\Facades\Route;
@@ -10,3 +11,4 @@ Route::get('/', function () {
 
 Route::resource("pacientes", PacienteController::class);
 Route::resource("medicos", MedicoController::class);
+Route::resource("agendamentos", AgendamentoController::class);
