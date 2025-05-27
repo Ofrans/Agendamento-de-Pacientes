@@ -30,6 +30,13 @@
          <div class="mb-3">
     <label for="birth_date" class="form-label">Data de Nascimento:</label>
     <input type="date" id="birth_date" name="birth_date" class="form-control" required>
+
+        <input type="hidden" name="medico_id" value="{{ $medico->id }}">
+
+        <div class="mb-3">
+            <label class="form-label">Médico:</label>
+            <input type="text" class="form-control" value="{{ $medico->name }}" readonly>
+        </div>
 </div>
 
  

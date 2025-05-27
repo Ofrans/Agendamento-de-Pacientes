@@ -31,6 +31,17 @@
     <input type="date" id="birth_date" name="birth_date" value = "{{ $paciente->birth_date}}" class="form-control" disabled>
 </div>
 
+        <div class="mb-3">
+            <label for="medico_id" class="form-label">Médico: </label>
+            <select id="medico_id" name="medico_id" class="form-select" disabled>
+                @foreach ($medicos as $m)
+                    <option value="{{ $m->id }}" {{ $paciente->medico_id == $m->id ? "selected" : ""}} >
+                        {{ $m->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
        <button type="submit" class="btn btn-danger">Excluir</button>
         <a href="/pacientes" class="btn btn-primary">Cancelar</a>
     </form>

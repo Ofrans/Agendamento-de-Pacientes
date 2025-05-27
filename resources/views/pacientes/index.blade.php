@@ -24,6 +24,7 @@
                 <th>Endereço</th>
                 <th>Telefone</th>
                 <th>Birth Date</th>
+                <th>Médico</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -36,6 +37,7 @@
                     <td>{{ $p->address }}</td>
                     <td>{{ $p->phone }}</td>
                     <td>{{ $p->birth_date }}</td>
+                    <td>{{ $p->medico->name }}</td>
                     <td>
                         <a href="/pacientes/{{ $p->id }}/edit" class="btn btn-warning">Editar</a>
                         <a href="/pacientes/{{ $p->id }}" class="btn btn-info">Consultar</a>

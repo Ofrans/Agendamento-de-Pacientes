@@ -33,6 +33,13 @@
     <input type="date" id="birth_date" name="birth_date" value = "{{ $paciente->birth_date}}" class="form-control" required="">
 </div>
 
+        <input type="hidden" name="medico_id" value="{{ $medico->id }}">
+
+        <div class="mb-3">
+            <label class="form-label">Médico:</label>
+            <input type="text" class="form-control" value="{{ $medico->name }}" readonly>
+        </div>
+
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 @endsection

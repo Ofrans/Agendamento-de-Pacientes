@@ -5,20 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Paciente;
+use App\Models\Medico;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class PacienteController extends Controller
 {
     public function index()
     {
-        $pacientes = Paciente::all();
+        $medico = Medico::where('user_id', Auth::id())->first();
+        if (!$medico) {
+            return redirect()->route('agendamentos.index')->with('erro', 'Médico não encontrado para o usuário.');
+        }
+        $pacientes = Paciente::where('medico_id', $medico->id)->get();
         return view('pacientes.index', compact('pacientes'));
     }
 
     public function create()
     {
-        return view('pacientes.create');
+        $medico = Medico::where('user_id', Auth::id())->first();
+        return view('pacientes.create', compact('medico'));
     }
 
     public function store(Request $request)
@@ -44,7 +51,8 @@ class PacienteController extends Controller
     public function edit(string $id)
     {
         $paciente = Paciente::findOrFail($id);
-        return view('pacientes.edit', compact('paciente'));
+        $medico = Medico::where('user_id', Auth::id())->first();
+        return view('pacientes.edit', compact('paciente', 'medico'));
     }
 
     public function update(Request $request, string $id)
