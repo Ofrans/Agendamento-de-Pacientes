@@ -23,7 +23,7 @@
                 <th>Email</th>
                 <th>Endereço</th>
                 <th>Telefone</th>
-                <th>Birth Date</th>
+                <th>Data de Aniversário</th>
                 <th>Médico</th>
                 <th>Ações</th>
             </tr>
