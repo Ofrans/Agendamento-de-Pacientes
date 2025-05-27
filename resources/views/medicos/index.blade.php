@@ -21,8 +21,8 @@
                 <th>ID</th>
                 <th>Nome do Medico</th>
                 <th>Email</th>
-                <th>Endereço</th>
                 <th>Telefone</th>
+                <th>CRM</th>
                 <th>Ações</th>
             </tr>
         </thead>
