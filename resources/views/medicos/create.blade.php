@@ -39,6 +39,23 @@
                 </select>
          </div>
 
+         <div class="mb-3">
+            <label for="especialidade" class="form-label">Especialidade:</label>
+                <select id="especialidade" name="especialidade" class="form-select" required>
+                    <option value="" selected disabled>Selecione uma especialidade</option>
+                    <option value="Clínico Geral">Clínico Geral</option>
+                    <option value="Pediatria">Pediatria</option>
+                    <option value="Cardiologia">Cardiologia</option>
+                    <option value="Dermatologia">Dermatologia</option>
+                    <option value="Ortopedia">Ortopedia</option>
+                    <option value="Ginecologia">Ginecologia</option>
+                    <option value="Neurologia">Neurologia</option>
+                    <option value="Oftalmologia">Oftalmologia</option>
+                    <option value="Psiquiatria">Psiquiatria</option>
+                    <option value="Outra">Outra</option>
+                </select>
+        </div>
+
          @if($errors->any())
         <div class="alert alert-danger">
             <ul>

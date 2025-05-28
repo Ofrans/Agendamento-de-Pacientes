@@ -33,6 +33,11 @@
             </select>
         </div>
 
+        <div class="mb-3">
+            <label for="especialidade" class="form-label">Especialidade:</label>
+            <input type="text" id="especialidade" name="especialidade" value = "{{ $medico->especialidade }}" class="form-control" required="">
+        </div>
+
         <button type="submit" class="btn btn-danger">Excluir</button>
         <a href="/medicos" class="btn btn-primary">Cancelar</a>
     </form>

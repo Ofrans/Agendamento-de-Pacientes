@@ -33,6 +33,23 @@
             </select>
         </div>
 
+        <div class="mb-3">
+            <label for="especialidade" class="form-label">Especialidade:</label>
+                <select id="especialidade" name="especialidade" class="form-select" required>
+                    <option value="" disabled>Selecione uma especialidade</option>
+                    <option value="Clínico Geral" {{ $medico->especialidade == 'Clínico Geral' ? 'selected' : '' }}>Clínico Geral</option>
+                    <option value="Pediatria" {{ $medico->especialidade == 'Pediatria' ? 'selected' : '' }}>Pediatria</option>
+                    <option value="Cardiologia" {{ $medico->especialidade == 'Cardiologia' ? 'selected' : '' }}>Cardiologia</option>
+                    <option value="Dermatologia" {{ $medico->especialidade == 'Dermatologia' ? 'selected' : '' }}>Dermatologia</option>
+                    <option value="Ortopedia" {{ $medico->especialidade == 'Ortopedia' ? 'selected' : '' }}>Ortopedia</option>
+                    <option value="Ginecologia" {{ $medico->especialidade == 'Ginecologia' ? 'selected' : '' }}>Ginecologia</option>
+                    <option value="Neurologia" {{ $medico->especialidade == 'Neurologia' ? 'selected' : '' }}>Neurologia</option>
+                    <option value="Oftalmologia" {{ $medico->especialidade == 'Oftalmologia' ? 'selected' : '' }}>Oftalmologia</option>
+                    <option value="Psiquiatria" {{ $medico->especialidade == 'Psiquiatria' ? 'selected' : '' }}>Psiquiatria</option>
+                    <option value="Outra" {{ $medico->especialidade == 'Outra' ? 'selected' : '' }}>Outra</option>
+                </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 @endsection

@@ -23,6 +23,7 @@
                 <th>Email</th>
                 <th>Telefone</th>
                 <th>CRM</th>
+                <th>Especialidade</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -34,6 +35,7 @@
                     <td>{{ $c->user->email }}</td>
                     <td>{{ $c->phone }}</td>
                     <td>{{ $c->crm }}</td>
+                    <td>{{ $c->especialidade }}</td>
                     <td>
                         <a href="/medicos/{{ $c->id }}/edit/" class="btn btn-warning">Editar</a>
                         <a href="/medicos/{{ $c->id }}/" class="btn btn-info">Consultar</a>

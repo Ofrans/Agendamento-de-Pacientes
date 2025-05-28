@@ -12,7 +12,7 @@ class Medico extends Model
 
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'phone', 'crm'];
+    protected $fillable = ['user_id', 'name', 'phone', 'crm', 'especialidade'];
 
     public function user()
     {
