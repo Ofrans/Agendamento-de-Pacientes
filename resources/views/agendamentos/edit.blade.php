@@ -38,6 +38,25 @@
             <label for="hora" class="form-label">Hora:</label>
             <input type="time" id="hora" name="hora" value = "{{ $agendamento->hora }}" class="form-control" required="">
         </div>
+        
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo:</label>
+                <select id="tipo" name="tipo" class="form-select" required>
+                    <option value="" disabled>Selecione um tipo</option>
+                    <option value="consulta" {{ $agendamento->tipo == 'consulta' ? 'selected' : '' }}>consulta</option>
+                    <option value="retorno" {{ $agendamento->tipo == 'retorno' ? 'selected' : '' }}>retorno</option>
+                </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">Status:</label> <!-- Corrigido o for="" -->
+                <select id="status" name="status" class="form-select" required> <!-- Corrigido id e name -->
+                    <option value="" disabled>Selecione um status</option>
+                    <option value="agendada" {{ $agendamento->status == 'agendada' ? 'selected' : '' }}>agendada</option>
+                    <option value="feita" {{ $agendamento->status == 'feita' ? 'selected' : '' }}>feita</option>
+                    <option value="cancelada" {{ $agendamento->status == 'cancelada' ? 'selected' : '' }}>cancelada</option>
+                </select>
+        </div>
 
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>

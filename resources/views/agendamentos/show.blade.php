@@ -40,6 +40,16 @@
             <input type="time" id="hora" name="hora" value="{{ $agendamento->hora }}" class="form-control" required disabled>
         </div>
 
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo:</label>
+            <input type="text" id="tipo" name="tipo" value = "{{ $agendamento->tipo }}" class="form-control" disabled>
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">Status:</label>
+            <input type="text" id="status" name="status" value = "{{ $agendamento->status }}" class="form-control" disabled>
+        </div>
+
         <button type="submit" class="btn btn-danger">Excluir</button>
         <a href="/agendamentos" class="btn btn-primary">Cancelar</a>
     </form>

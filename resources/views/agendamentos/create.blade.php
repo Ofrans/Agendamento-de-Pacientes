@@ -37,6 +37,25 @@
              <label for="hora" class="form-label">Hora:</label>
              <input type="time" id="hora" name="hora" class="form-control" required="">
          </div>
+
+         <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo de agendamento:</label>
+                <select id="tipo" name="tipo" class="form-select" required>
+                    <option value="" selected disabled>Selecione uma tipo</option>
+                    <option value="consulta">Consulta</option>
+                    <option value="retorno">Retorno</option>
+                </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="status" class="form-label">Status do agendamento:</label>
+                <select id="status" name="status" class="form-select" required>
+                    <option value="" selected disabled>Selecione um status</option>
+                    <option value="agendada">Agendada</option>
+                    <option value="feita">Feita</option>
+                    <option value="cancelada">Cancelada</option>
+                </select>
+        </div>
  
          <button type="submit" class="btn btn-primary">Enviar</button>
      </form>

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->date('data');
             $table->time('hora');
+            $table->string('tipo');
+            $table->string('status');
             $table->unsignedBigInteger('paciente_id');
             $table->unsignedBigInteger('medico_id');
             $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');

@@ -24,6 +24,8 @@
                 <th>Nome do Paciente</th>
                 <th>Data</th>
                 <th>Hora</th>
+                <th>Tipo</th>
+                <th>Status</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -35,6 +37,8 @@
                     <td>{{ $c->paciente->name }}</td>
                     <td>{{ $c->data }}</td>
                     <td>{{ $c->hora }}</td>
+                    <td>{{ $c->tipo }}</td>
+                    <td>{{ $c->status }}</td>
                     <td>
                         <a href="/agendamentos/{{ $c->id }}/edit/" class="btn btn-warning">Editar</a>
                         <a href="/agendamentos/{{ $c->id }}/" class="btn btn-info">Consultar</a>

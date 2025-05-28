@@ -43,7 +43,9 @@ class AgendamentoController extends Controller
             'medico_id' => 'required|exists:medicos,id',
             'paciente_id' => 'required|exists:pacientes,id',
             'data' => 'required|date',
-            'hora' => 'required|date_format:H:i'
+            'hora' => 'required|date_format:H:i',
+            'tipo' => 'required|in:consulta,retorno',
+            'status' => 'required|in:agendada,feita,cancelada'
         ]);
 
         try {
@@ -93,23 +95,17 @@ class AgendamentoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
-        'medico_id' => 'required|exists:medicos,id',
-        'paciente_id' => 'required|exists:pacientes,id',
-        'data' => 'required|date',
-        'hora' => 'required|date_format:H:i'
-        ]);
-
         try {
             $agendamento = Agendamento::findOrFail($id);
-            $agendamento->update($validated);
-            
-            return redirect()->route('agendamentos.index')
-                ->with('sucesso', 'Agendamento atualizado com sucesso!');
+            $agendamento->update($request->all());
+            return redirect()->route('agendamentos.index')->with('sucesso', 'Agendamento alterado com sucesso!');
         } catch (Exception $e) {
-            return redirect()->back()
-                ->withInput()
-                ->with('erro', 'Erro ao atualizar: ' . $e->getMessage());
+            Log::error("erro ao atualizar o agendamento: ".$e->getMessage(), [
+                'stack' => $e->getTraceAsString(),
+	            'agendamento_id' => $id,
+	            'request' => $request->all()
+            ]);
+            return redirect()->route('agendamentos.index')->with('erro','Erro ao editar!');
         }
     }
 
