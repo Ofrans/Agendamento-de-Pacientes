@@ -90,22 +90,35 @@ class AgendamentoController extends Controller
         return view('agendamentos.edit', compact('agendamento', 'medicos', 'pacientes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+   public function update(Request $request, string $id)
     {
         try {
             $agendamento = Agendamento::findOrFail($id);
-            $agendamento->update($request->all());
-            return redirect()->route('agendamentos.index')->with('sucesso', 'Agendamento alterado com sucesso!');
-        } catch (Exception $e) {
-            Log::error("erro ao atualizar o agendamento: ".$e->getMessage(), [
-                'stack' => $e->getTraceAsString(),
-	            'agendamento_id' => $id,
-	            'request' => $request->all()
+            
+            // Validação simplificada mas segura
+            $agendamento->update([
+                'medico_id' => $request->medico_id,
+                'paciente_id' => $request->paciente_id,
+                'data' => $request->data,
+                'hora' => substr($request->hora, 0, 5), // Garante o formato HH:MM
+                'tipo' => $request->tipo,
+                'status' => $request->status
             ]);
-            return redirect()->route('agendamentos.index')->with('erro','Erro ao editar!');
+            
+            return redirect()->route('agendamentos.index')
+                ->with('sucesso', 'Agendamento alterado com sucesso!');
+                
+        } catch (Exception $e) {
+            Log::error("Erro ao atualizar agendamento", [
+                'id' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'request' => $request->all()
+            ]);
+            
+            return redirect()->back()
+                ->withInput()
+                ->with('erro', 'Erro ao editar: ' . $e->getMessage());
         }
     }
 
