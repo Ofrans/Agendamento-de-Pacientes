@@ -15,10 +15,24 @@ class MedicoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $medicos = Medico::with('user')->get();
-        return view("medicos.index", compact('medicos'));
+        $query = Medico::with('user');
+        
+        // Filtro por especialidade
+        if ($request->has('especialidade') && $request->especialidade != '') {
+            $query->where('especialidade', 'like', '%' . $request->especialidade . '%');
+        }
+        
+        $medicos = $query->get();
+        
+        // Para o dropdown de filtro
+        $especialidades = Medico::select('especialidade')
+            ->distinct()
+            ->orderBy('especialidade')
+            ->get();
+            
+        return view("medicos.index", compact('medicos', 'especialidades'));
     }
 
     
