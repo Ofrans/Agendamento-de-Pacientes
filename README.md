@@ -145,3 +145,67 @@ docker-compose exec app php artisan serve
 # Popular banco com dados fake
 docker-compose exec app php artisan db:seed
 ```
+
+## ℹ️ Informações Importantes
+
+### 1. Fluxo de Acesso
+- **Acesso restrito**: Somente usuários cadastrados podem acessar o sistema
+- **Redirecionamento pós-login**:
+  ```mermaid
+  graph TD
+    A[Login] --> B{Tem médico vinculado?}
+    B -->|Sim| C[Tela de Agendamentos]
+    B -->|Não| D[Tela de Cadastro de Médico]
+  ```
+
+### 2. Regras de Negócio
+- **Cadastro médico obrigatório**:
+  - Usuário sem médico vinculado é redirecionado para cadastro médico
+  - Bloqueio de acesso à tela de pacientes sem médico cadastrado
+
+- **Escopo de visualização**:
+  - Pacientes: Apenas os vinculados ao médico logado
+  - Agendamentos: Exclusivamente os do médico autenticado
+
+### 3. Hierarquia de Acesso
+```mermaid
+flowchart LR
+  U[Usuário] -->|1:1| M[Médico]
+  M -->|1:N| P[Pacientes]
+  M -->|1:N| A[Agendamentos]
+```
+
+### 4. Fluxo Completo
+1. Login → Verifica vínculo médico
+2. Sem médico → Força cadastro
+3. Com médico válido → Mostra:
+   - Seus pacientes
+   - Seus agendamentos
+   - Seu perfil médico
+
+[... mantido o restante das seções ...]
+```
+
+### Destaques incluídos:
+1. **Diagramas explicativos**:
+   - Fluxo de redirecionamento pós-login
+   - Hierarquia de relacionamentos
+
+2. **Regras mapeadas**:
+   - Bloqueio de telas sem médico vinculado
+   - Filtragem automática por médico logado
+
+3. **Organização visual**:
+   - Tópicos numerados
+   - Destaque para pontos críticos
+
+4. **Consistência com o código**:
+   - Reflete exatamente as validações implementadas nos controllers:
+     ```php
+     // Exemplo do MedicoController
+     $medico = Medico::where('user_id', Auth::id())->first();
+     if (!$medico) {
+         return redirect()->route('medicos.create');
+     }
+     ```
+
