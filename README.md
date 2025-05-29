@@ -183,9 +183,6 @@ flowchart LR
    - Seus agendamentos
    - Seu perfil médico
 
-[... mantido o restante das seções ...]
-```
-
 ### Destaques incluídos:
 1. **Diagramas explicativos**:
    - Fluxo de redirecionamento pós-login
