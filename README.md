@@ -104,6 +104,44 @@ agendamento-app/
 | POST   | /cadastro  | Processa cadastro       |
 | POST   | /logout    | Encerra sessão          |
 
+# 🏥 Sistema de Agendamento Médico
+
+[... mantidas todas as seções anteriores ...]
+
+## 🛣 Demais Rotas Protegidas
+
+Todas estas rotas exigem autenticação (`auth` middleware):
+
+| Método | Rota               | Controller@Método          | Descrição                              |
+|--------|--------------------|----------------------------|----------------------------------------|
+| GET    | /pacientes         | PacienteController@index   | Lista pacientes do médico logado       |
+| POST   | /pacientes         | PacienteController@store   | Cria novo paciente                     |
+| GET    | /pacientes/create  | PacienteController@create  | Formulário de criação                  |
+| GET    | /pacientes/{id}    | PacienteController@show    | Detalhes do paciente                   |
+| PUT    | /pacientes/{id}    | PacienteController@update  | Atualiza paciente                      |
+| DELETE | /pacientes/{id}    | PacienteController@destroy | Remove paciente                        |
+| GET    | /pacientes/{id}/edit | PacienteController@edit   | Formulário de edição                   |
+| GET    | /medicos           | MedicoController@index     | Lista médicos (apenas do usuário)      |
+| POST   | /medicos           | MedicoController@store     | Cria novo médico                       |
+| GET    | /medicos/create    | MedicoController@create    | Formulário de criação                  |
+| GET    | /medicos/{id}      | MedicoController@show      | Detalhes do médico                     |
+| PUT    | /medicos/{id}      | MedicoController@update    | Atualiza médico                        |
+| DELETE | /medicos/{id}      | MedicoController@destroy   | Remove médico                          |
+| GET    | /medicos/{id}/edit | MedicoController@edit      | Formulário de edição                   |
+| GET    | /agendamentos      | AgendamentoController@index | Lista agendamentos do médico          |
+| POST   | /agendamentos      | AgendamentoController@store | Cria novo agendamento                 |
+| GET    | /agendamentos/create | AgendamentoController@create | Formulário de criação                |
+| GET    | /agendamentos/{id} | AgendamentoController@show  | Detalhes do agendamento               |
+| PUT    | /agendamentos/{id} | AgendamentoController@update | Atualiza agendamento                 |
+| DELETE | /agendamentos/{id} | AgendamentoController@destroy | Remove agendamento                   |
+| GET    | /agendamentos/{id}/edit | AgendamentoController@edit | Formulário de edição                |
+| POST   | /logout            | AuthController@logout       | Encerra sessão                        |
+| GET    | /editar            | UserController@edit         | Formulário de edição de perfil        |
+| POST   | /editar            | UserController@update       | Atualiza dados do usuário             |
+
+### 🔒 Regras de Acesso
+- Todas as rotas estão protegidas por `auth` middleware
+- Filtros automáticos por `medico_id` (quando aplicável)
 
 ## 📌 Variáveis de Ambiente Críticas
 
@@ -135,16 +173,6 @@ SESSION_LIFETIME=120
    - Separação clara de responsabilidades
    - Convenções RESTful
    - Tratamento centralizado de exceções
-
-## 🧪 Testando o Sistema
-
-```bash
-# Executar programa
-docker-compose exec app php artisan serve
-
-# Popular banco com dados fake
-docker-compose exec app php artisan db:seed
-```
 
 ## ℹ️ Informações Importantes
 
@@ -196,13 +224,12 @@ flowchart LR
    - Tópicos numerados
    - Destaque para pontos críticos
 
-4. **Consistência com o código**:
-   - Reflete exatamente as validações implementadas nos controllers:
-     ```php
-     // Exemplo do MedicoController
-     $medico = Medico::where('user_id', Auth::id())->first();
-     if (!$medico) {
-         return redirect()->route('medicos.create');
-     }
-     ```
+## 🧪 Testando o Sistema
 
+```bash
+# Executar programa
+docker-compose exec app php artisan serve
+
+# Popular banco com dados fake
+docker-compose exec app php artisan db:seed
+```
