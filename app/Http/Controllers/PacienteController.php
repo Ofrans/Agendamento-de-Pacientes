@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Agendamento;
 use Illuminate\Http\Request;
 use App\Models\Paciente;
 use App\Models\Medico;
@@ -14,12 +15,19 @@ class PacienteController extends Controller
 {
     public function index()
     {
+        // Busca o médico associado ao usuário logado
         $medico = Medico::where('user_id', Auth::id())->first();
+        
         if (!$medico) {
             return redirect()->route('agendamentos.index')->with('erro', 'Médico não encontrado para o usuário.');
         }
-        $pacientes = Paciente::where('medico_id', $medico->id)->get();
-        return view('pacientes.index', compact('pacientes'));
+        
+        // Busca apenas os agendamentos do médico logado, com eager loading das relações
+        $agendamentos = Agendamento::with(['medico', 'paciente'])
+            ->where('medico_id', $medico->id)
+            ->get();
+        
+        return view('agendamentos.index', compact('agendamentos'));
     }
 
     public function create()

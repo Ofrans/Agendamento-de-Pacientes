@@ -9,6 +9,7 @@ use App\Models\Medico;
 use App\Models\Paciente;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class AgendamentoController extends Controller
 {
@@ -17,8 +18,12 @@ class AgendamentoController extends Controller
      */
     public function index()
     {
-        $agendamentos = Agendamento::with('medico',"paciente")->get();
-        return view("agendamentos.index", compact('agendamentos'));
+        $medico = Medico::where('user_id', Auth::id())->first();
+        if (!$medico) {
+            return redirect()->route('medicos.index')->with('erro', 'Nenhum médico cadastrado para este usuário');
+        }
+        $agendamentos = Agendamento::where('medico_id', $medico->id)->get();
+        return view('agendamentos.index', compact('agendamentos'));
     }
 
     
