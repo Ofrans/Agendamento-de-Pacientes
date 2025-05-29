@@ -27,9 +27,9 @@
         </div>
 
         <div class="mb-3">
-    <label for="birth_date" class="form-label">Data de Nascimento:</label>
-    <input type="date" id="birth_date" name="birth_date" value = "{{ $paciente->birth_date}}" class="form-control" disabled>
-</div>
+            <label for="birth_date" class="form-label">Data de Nascimento:</label>
+            <input type="date" id="birth_date" name="birth_date" value = "{{ $paciente->birth_date}}" class="form-control" disabled>
+        </div>
 
         <div class="mb-3">
             <label for="medico_id" class="form-label">Médico: </label>

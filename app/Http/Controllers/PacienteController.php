@@ -45,7 +45,8 @@ class PacienteController extends Controller
     public function show(string $id)
     {
         $paciente = Paciente::findOrFail($id);
-        return view('pacientes.show', compact('paciente'));
+        $medicos = Medico::all(); // Carrega todos os médicos do banco de dados
+        return view('pacientes.show', compact('paciente', 'medicos'));
     }
 
     public function edit(string $id)
