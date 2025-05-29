@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Medico;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
@@ -17,16 +18,17 @@ class MedicoController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Medico::with('user');
+        $query = Medico::with('user')
+                ->where('user_id', Auth::id()); // Filtra apenas o médico logado
         
-        // Filtro por especialidade
+        // Mantém o filtro por especialidade (funcionará como verificação)
         if ($request->has('especialidade') && $request->especialidade != '') {
             $query->where('especialidade', 'like', '%' . $request->especialidade . '%');
         }
         
         $medicos = $query->get();
         
-        // Para o dropdown de filtro
+        // Mantém o dropdown de especialidades (pode ser útil para futuras expansões)
         $especialidades = Medico::select('especialidade')
             ->distinct()
             ->orderBy('especialidade')
