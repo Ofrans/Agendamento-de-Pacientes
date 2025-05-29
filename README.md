@@ -1,61 +1,147 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏥 Sistema de Agendamento Médico
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-8.2-red.svg)
+![Docker](https://img.shields.io/badge/Docker-3.8-blue.svg)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-orange.svg)
 
-## About Laravel
+Sistema completo para gestão de consultas médicas com autenticação, CRUD de pacientes, médicos e agendamentos.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📦 Estrutura do Projeto
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+agendamento-app/
+├── app/
+│   ├── Models/
+│   │   ├── Agendamento.php
+│   │   ├── Medico.php
+│   │   └── Paciente.php
+│   └── Http/
+│       ├── Controllers/
+│       │   ├── AgendamentoController.php
+│       │   ├── MedicoController.php
+│       │   └── PacienteController.php
+├── docker/
+│   ├── Dockerfile
+│   └── nginx.conf
+├── database/
+│   └── migrations/
+│       ├── create_medicos_table.php
+│       ├── create_pacientes_table.php
+│       └── create_agendamentos_table.php
+├── routes/
+│   └── web.php
+└── docker-compose.yml
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Recursos Principais
 
-## Learning Laravel
+- **Autenticação Segura**
+  - Login/Cadastro de médicos
+  - Middleware de proteção nas rotas
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Gestão Completa**
+  - CRUD de Pacientes
+  - CRUD de Médicos
+  - Agendamento de Consultas
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Relacionamentos**
+  - Médico → Agendamentos (1:N)
+  - Paciente → Agendamentos (1:N)
+  - User → Médico (1:1)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠 Tecnologias Utilizadas
 
-## Laravel Sponsors
+| Componente       | Tecnologia           |
+|------------------|----------------------|
+| Backend          | Laravel 8.2          |
+| Frontend         | Blade Templates      |
+| Banco de Dados   | MySQL 8.0            |
+| Containerização  | Docker + Nginx       |
+| Autenticação     | Session Auth         |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🐳 Instalação com Docker
 
-### Premium Partners
+1. **Pré-requisitos**
+   ```bash
+   Docker >= 20.10
+   Docker Compose >= 1.29
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+2. **Configuração Inicial**
+   ```bash
+   git clone https://github.com/Ofrans/Agendamento-de-Pacientes.git
+   cd agendamento-app
+   cp .env.example .env
+   ```
 
-## Contributing
+3. **Subir os Containers**
+   ```bash
+   docker-compose up -d --build
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Instalar Dependências**
+   ```bash
+   docker-compose exec app composer install
+   ```
 
-## Code of Conduct
+5. **Configurar Banco de Dados**
+   ```bash
+   docker-compose exec app php artisan migrate --seed
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. **Acessar a Aplicação**
+   ```
+   http://localhost:8000
+   ```
 
-## Security Vulnerabilities
+## 🔐 Rotas de Autenticação
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Método | Rota       | Descrição               |
+|--------|------------|-------------------------|
+| GET    | /login     | Formulário de login     |
+| POST   | /login     | Processa login          |
+| GET    | /cadastro  | Formulário de cadastro  |
+| POST   | /cadastro  | Processa cadastro       |
+| POST   | /logout    | Encerra sessão          |
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📌 Variáveis de Ambiente Críticas
+
+```ini
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=db_irroba
+DB_USERNAME=root
+DB_PASSWORD=root
+
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+```
+
+## 💡 Boas Práticas Implementadas
+
+1. **Segurança**
+   - Validação em todos os endpoints
+   - Proteção contra Mass Assignment
+   - Logs detalhados de erros
+
+2. **Otimizações**
+   - Eager Loading nas relações
+   - Transações em operações críticas
+   - Indexação de chaves estrangeiras
+
+3. **Organização**
+   - Separação clara de responsabilidades
+   - Convenções RESTful
+   - Tratamento centralizado de exceções
+
+## 🧪 Testando o Sistema
+
+```bash
+# Executar programa
+docker-compose exec app php artisan serve
+
+# Popular banco com dados fake
+docker-compose exec app php artisan db:seed
+```
