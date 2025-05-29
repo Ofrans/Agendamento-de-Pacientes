@@ -32,10 +32,21 @@ class AgendamentoController extends Controller
      */
     public function create()
     {
-        $medicos = Medico::with('user')->get(); // Carrega médicos com seus usuários
-        $pacientes = Paciente::all(); // Ou User::where('tipo', 'paciente')->get();
-    
-        return view('agendamentos.create', compact('medicos', 'pacientes'));
+        // Busca o médico logado
+        $medico = Medico::with('user')->where('user_id', Auth::id())->first();
+        
+        if (!$medico) {
+            return redirect()->route('agendamentos.index')
+                ->with('erro', 'Médico não encontrado para o usuário.');
+        }
+        
+        // Carrega apenas os pacientes deste médico
+        $pacientes = Paciente::where('medico_id', $medico->id)->get();
+        
+        return view('agendamentos.create', [
+            'medico' => $medico,  // Passa o médico logado (objeto único)
+            'pacientes' => $pacientes
+        ]);
     }
 
     /**
